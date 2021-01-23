@@ -2,31 +2,28 @@ const express = require(`express`)
 const mongoose = require(`mongoose`)
 const createError = require(`http-errors`)
 const jwt = require("jsonwebtoken")
-
 const router = express.Router()
 
 const Article = require(`../../../models/articleModel/articlesModel`)
 
-router.get(`/getonearticle/v1/api/:articleId`, async (req, res, next) => {
+router.get(`/getonebyname/v1/api/:articleName`, async (req, res, next) => {
 
-    const queryParams = req.params.articleId
+    const queryName = req.params.articleName
+
+    const newQueryName = queryName
 
     try {
 
-        if (queryParams.match(/^[0-9a-fA-F]{24}$/)) {
+        const currentQuery = await Article.findOne({name: queryName})
 
-            const currentQuery = await Article.findOne({_id: queryParams})
-
-            if (currentQuery === null) {
-                return next(createError(404, `Not found.`))
-            }
-
+        if (currentQuery === null) {
+            next(createError(404, `Article Not found.`))
+        } else {
             res.json({
                 status: res.statusCode,
+                message: `Successful`,
                 data: currentQuery
             })
-        } else {
-            next(createError(500, `Invalid ID`))      
         }
 
     } catch (err) {

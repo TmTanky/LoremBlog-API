@@ -1,6 +1,7 @@
 const express = require(`express`)
 const mongoose = require(`mongoose`)
 const createError = require(`http-errors`)
+const jwt = require("jsonwebtoken")
 
 const router = express.Router()
 
@@ -10,7 +11,19 @@ router.post(`/submitarticle/v1/api`, async (req, res, next) => {
 
     const {name, description} = req.body
 
+    let token
+
+    if (req.headers.authorization && req.headers.authorization.startsWith(`Bearer`)) {
+        token = req.headers.authorization.split(` `)[1]
+    }
+
+    if (!token) {
+        return next(createError(401, `Please Log In.`))
+    }
+
     try {
+
+        jwt.verify(token, process.env.JWT_SECRET_KEY)
 
         const newArticle = await new Article({
             name,

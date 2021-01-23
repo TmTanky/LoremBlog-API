@@ -19,6 +19,7 @@ const getAllArticlesRouter = require(`./routes/Articles/getAll/getAll`)
 const deleteArticleRouter = require(`./routes/Articles/delete/deleteArticle`)
 const getOneArticleRouter = require(`./routes/Articles/getOne/getOneArticle`)
 const patchOneArticleRouter = require(`./routes/Articles/patch/patchArticle`)
+const getOneArticleByNameRouter = require(`./routes/Articles/getOneByName/getOneByName`)
 
 // connect to DB
 mongoose.connect(process.env.DB,{useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false})
@@ -38,6 +39,7 @@ app.use(getAllArticlesRouter)
 app.use(deleteArticleRouter)
 app.use(getOneArticleRouter)
 app.use(patchOneArticleRouter)
+app.use(getOneArticleByNameRouter)
 
 app.use((req, res, next) => {
     next(createError(404, `URL not found`))

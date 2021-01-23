@@ -3,6 +3,7 @@ const mongoose = require(`mongoose`)
 const bcrypt = require(`bcrypt`)
 const {body, validationResult} = require(`express-validator`)
 const createError = require(`http-errors`)
+const jwt = require(`jsonwebtoken`)
 
 const saltRounds = 10
 const router = express.Router()
@@ -34,8 +35,11 @@ router.post(`/signup/v1/api`,body(`email`).isEmail().withMessage(`Email must be 
 
         const newUser = await newPerson.save()
 
+        const token = await jwt.sign({id: newUser._id}, process.env.JWT_SECRET_KEY)
+
         res.json({
             status: res.statusCode,
+            token,
             data: newUser
         })
         

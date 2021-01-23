@@ -2,6 +2,7 @@ const express = require(`express`)
 const mongoose = require(`mongoose`)
 const bcrypt = require(`bcrypt`)
 const createError = require(`http-errors`)
+const jwt =require(`jsonwebtoken`)
 
 const router = express.Router()
 
@@ -16,10 +17,14 @@ router.post(`/login/v1/api`, async (req, res, next) => {
         const existUser = await Users.findOne({email})
 
         if (existUser) {
-            bcrypt.compare(password, existUser.password, (err, result) => {
+            bcrypt.compare(password, existUser.password, async (err, result) => {
                 if (result) {
+
+                    const token = await jwt.sign({id: existUser._id}, process.env.JWT_SECRET_KEY)
+
                     res.json({
                         status: res.statusCode,
+                        token,
                         data: existUser
                     })
                 } else {
