@@ -1,0 +1,13 @@
+<%- include(`header`) %>
+
+<form action="/admin/addarticle" method="post" class="addarticle">
+
+    <h1> Add article </h1>
+
+    <input type="text" name="name" class="artname" placeholder="Article name">
+    <textarea placeholder="Article description..." name="description" cols="30" rows="10" class="artdesc"></textarea>
+
+    <button type="submit" class="addbtn"> Add </button>
+</form>
+
+<%- include(`footer`) %>

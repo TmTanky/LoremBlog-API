@@ -35,7 +35,7 @@ router.post(`/signup/v1/api`,body(`email`).isEmail().withMessage(`Email must be 
 
         const newUser = await newPerson.save()
 
-        const token = await jwt.sign({id: newUser._id}, process.env.JWT_SECRET_KEY)
+        const token = await jwt.sign({id: newUser._id}, process.env.JWT_SECRET_KEY, {expiresIn: `1d`})
 
         res.json({
             status: res.statusCode,

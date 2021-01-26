@@ -20,7 +20,7 @@ router.post(`/login/v1/api`, async (req, res, next) => {
             bcrypt.compare(password, existUser.password, async (err, result) => {
                 if (result) {
 
-                    const token = await jwt.sign({id: existUser._id}, process.env.JWT_SECRET_KEY)
+                    const token = await jwt.sign({id: existUser._id}, process.env.JWT_SECRET_KEY, {expiresIn: `1d` })
 
                     res.json({
                         status: res.statusCode,
