@@ -28,15 +28,6 @@ const getOneArticleRouter = require(`./routes/Articles/getOne/getOneArticle`)
 const patchOneArticleRouter = require(`./routes/Articles/patch/patchArticle`)
 const getOneArticleByNameRouter = require(`./routes/Articles/getOneByName/getOneByName`)
 
-// renderRouters 
-
-const root = require(`./routes/rootview/root/root`)
-const login = require(`./routes/rootview/login/login`)
-const addArticle = require(`./routes/rootview/addArticleAdmin/addArticle`)
-const previewArticle = require(`./routes/rootview/articleoverview/articlepreview`)
-const logout = require(`./routes/rootview/logout/logout`)
-const register = require(`./routes/rootview/register/register`)
-
 // connect to DB
 mongoose.connect(process.env.DB,{useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false})
 
@@ -55,13 +46,6 @@ app.use(patchOneArticleRouter)
 app.use(getOneArticleByNameRouter)
 
 // renders
-
-app.use(login)
-app.use(addArticle)
-app.use(root)
-app.use(previewArticle)
-app.use(logout)
-app.use(register)
 
 app.use((req, res, next) => {
     next(createError(404, `URL not found`))

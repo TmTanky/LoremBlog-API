@@ -13,8 +13,21 @@ const articlesSchema = new mongoose.Schema({
     dateCreatedAt: {
         type: Date,
         default: new Date
-    }
+    },
+    createdBy: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: `user`
+        }
+    ]
 })
+
+// articlesSchema.pre(/^find/, function(next) {
+//     this.populate({
+//         path: `user`
+//     })
+//     next()
+// })
 
 const ArticleMan = new mongoose.model(`article`, articlesSchema)
 
